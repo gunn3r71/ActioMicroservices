@@ -5,6 +5,7 @@ using Actio.Common.RabbitMq;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using RawRabbit;
 
 namespace Actio.Common.Services
@@ -29,6 +30,7 @@ namespace Actio.Common.Services
                 .Build();
 
             var builder = WebHost.CreateDefaultBuilder(args)
+                .UseDefaultServiceProvider(options => options.ValidateScopes = false)
                 .UseConfiguration(config)
                 .UseStartup<TStartup>();
 
