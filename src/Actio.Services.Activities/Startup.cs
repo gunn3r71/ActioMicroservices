@@ -1,4 +1,5 @@
 using Actio.Common.Commands;
+using Actio.Common.Mongo;
 using Actio.Common.RabbitMq;
 using Actio.Services.Activities.Handlers;
 using Microsoft.AspNetCore.Builder;
@@ -25,6 +26,7 @@ namespace Actio.Services.Activities
 
             services.AddControllers();
             services.AddRabbitMq(Configuration);
+            services.AddMongoDb(Configuration);
             services.AddScoped<ICommandHandler<CreateActivityCommand>, CreateActivityCommandHandler>();
 
             services.AddSwaggerGen(c =>
