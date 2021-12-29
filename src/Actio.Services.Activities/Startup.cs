@@ -1,6 +1,10 @@
 using Actio.Common.Commands;
 using Actio.Common.Mongo;
 using Actio.Common.RabbitMq;
+using Actio.Services.Activities.Data.Repositories;
+using Actio.Services.Activities.Domain.Models;
+using Actio.Services.Activities.Domain.Repositories;
+using Actio.Services.Activities.Extensions;
 using Actio.Services.Activities.Handlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,16 +27,9 @@ namespace Actio.Services.Activities
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
-            services.AddRabbitMq(Configuration);
-            services.AddMongoDb(Configuration);
-            services.AddScoped<ICommandHandler<CreateActivityCommand>, CreateActivityCommandHandler>();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Actio.Services.Activities", Version = "v1" });
-            });
+            services.ResolveDependencies(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,8 +38,6 @@ namespace Actio.Services.Activities
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Actio.Services.Activities v1"));
             }
 
             app.UseHttpsRedirection();
@@ -51,6 +46,8 @@ namespace Actio.Services.Activities
 
             app.UseAuthorization();
 
+            app.ApplicationServices.GetService<IDatabaseInitializer>().InitializeAsync();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
