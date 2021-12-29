@@ -7,6 +7,7 @@ using Actio.Services.Activities.Handlers;
 using Actio.Services.Activities.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Actio.Services.Activities.Extensions
 {
@@ -23,6 +24,14 @@ namespace Actio.Services.Activities.Extensions
             services.AddScoped<IActivityService, ActivityService>();
 
             services.AddScoped<IDatabaseSeeder, CustomMongoSeeder>();
+
+            services.AddLogging(x =>
+            {
+                x.Configure(o =>
+                {
+                    o.ActivityTrackingOptions = ActivityTrackingOptions.None;
+                }).AddConsole();
+            });
 
             return services;
         }

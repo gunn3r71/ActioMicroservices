@@ -1,16 +1,10 @@
-using Actio.Common.Commands;
 using Actio.Common.Mongo;
-using Actio.Common.RabbitMq;
-using Actio.Services.Activities.Data.Repositories;
-using Actio.Services.Activities.Domain.Repositories;
 using Actio.Services.Activities.Extensions;
-using Actio.Services.Activities.Handlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 
 namespace Actio.Services.Activities
 {
@@ -45,7 +39,7 @@ namespace Actio.Services.Activities
 
             app.UseAuthorization();
 
-            app.ApplicationServices.GetService<IDatabaseInitializer>().InitializeAsync();
+            app.ApplicationServices.GetService<IDatabaseInitializer>()?.InitializeAsync();
             
             app.UseEndpoints(endpoints =>
             {
