@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Actio.Services.Activities.Domain.Models
+namespace Actio.Services.Activities.Domain.Entities
 {
     public class Category
     {

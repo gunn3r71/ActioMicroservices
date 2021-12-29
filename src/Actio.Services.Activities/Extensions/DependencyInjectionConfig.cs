@@ -19,6 +19,9 @@ namespace Actio.Services.Activities.Extensions
             services.AddScoped<ICommandHandler<CreateActivityCommand>, CreateActivityCommandHandler>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IActivityRepository, ActivityRepository>();
+
+            services.AddScoped<IActivityService, ActivityService>();
+
             services.AddScoped<IDatabaseSeeder, CustomMongoSeeder>();
 
             return services;

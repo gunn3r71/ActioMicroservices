@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Actio.Services.Activities.Domain.Models;
+using Actio.Services.Activities.Domain.Entities;
 using Actio.Services.Activities.Domain.Repositories;
 using MongoDB.Driver;
 

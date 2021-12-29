@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Actio.Services.Activities.Domain.Models;
+using Actio.Services.Activities.Domain.Entities;
 
 namespace Actio.Services.Activities.Domain.Repositories
 {

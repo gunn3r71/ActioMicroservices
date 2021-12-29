@@ -2,7 +2,6 @@ using Actio.Common.Commands;
 using Actio.Common.Mongo;
 using Actio.Common.RabbitMq;
 using Actio.Services.Activities.Data.Repositories;
-using Actio.Services.Activities.Domain.Models;
 using Actio.Services.Activities.Domain.Repositories;
 using Actio.Services.Activities.Extensions;
 using Actio.Services.Activities.Handlers;
