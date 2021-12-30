@@ -1,11 +1,11 @@
 using Actio.Common.Commands;
 using Actio.Common.RabbitMq;
+using Actio.Services.Identity.Extensions;
 using Actio.Services.Identity.Handlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
@@ -25,14 +25,9 @@ namespace Actio.Services.Identity
         {
 
             services.AddControllers();
-            services.AddRabbitMq(Configuration);
 
-            services.AddScoped<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
+            services.ResolveDependencies(Configuration);
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Actio.Services.Identity", Version = "v1" });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,8 +36,6 @@ namespace Actio.Services.Identity
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Actio.Services.Identity v1"));
             }
 
             app.UseHttpsRedirection();
