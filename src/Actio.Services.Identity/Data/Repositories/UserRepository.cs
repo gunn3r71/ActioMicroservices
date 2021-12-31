@@ -9,15 +9,21 @@ namespace Actio.Services.Identity.Data.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly IMongoDatabase _db;
-        private IMongoCollection<User> _collection => _db.GetCollection<User>("Users");
+        
+        public UserRepository(IMongoDatabase db)
+        {
+            _db = db;
+        }
 
         public async Task<User> GetAsync(Guid id) =>
-            (await _collection.FindAsync(x => x.Id == id)).SingleOrDefault();
+            (await Collection.FindAsync(x => x.Id == id)).SingleOrDefault();
 
         public async Task<User> GetAsync(string email) =>
-            (await _collection.FindAsync(x => x.Email == email.ToLowerInvariant())).FirstOrDefault();
+            (await Collection.FindAsync(x => x.Email == email.ToLowerInvariant())).FirstOrDefault();
 
         public async Task CreateAsync(User user) =>
-            await _collection.InsertOneAsync(user);
+            await Collection.InsertOneAsync(user);
+
+        private IMongoCollection<User> Collection => _db.GetCollection<User>("Users");
     }
 }

@@ -1,13 +1,10 @@
-using Actio.Common.Commands;
-using Actio.Common.RabbitMq;
+using Actio.Common.Mongo;
 using Actio.Services.Identity.Extensions;
-using Actio.Services.Identity.Handlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 
 namespace Actio.Services.Identity
 {
@@ -23,11 +20,8 @@ namespace Actio.Services.Identity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
-
             services.ResolveDependencies(Configuration);
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +37,8 @@ namespace Actio.Services.Identity
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.ApplicationServices.GetService<IDatabaseInitializer>()?.InitializeAsync();
 
             app.UseEndpoints(endpoints =>
             {

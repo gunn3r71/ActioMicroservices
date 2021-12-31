@@ -6,6 +6,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using RawRabbit;
 
 namespace Actio.Common.Services
@@ -23,13 +24,18 @@ namespace Actio.Common.Services
 
         public static HostBuilder Create<TStartup>(string[] args) where TStartup : class
         {
-            Console.Title = typeof(TStartup).Namespace;
+            Console.Title = typeof(TStartup).Namespace ?? throw new InvalidOperationException();
             var config = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
                 .AddCommandLine(args)
                 .Build();
 
             var builder = WebHost.CreateDefaultBuilder(args)
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddConsole();
+                })
                 .UseDefaultServiceProvider(options => options.ValidateScopes = false)
                 .UseConfiguration(config)
                 .UseStartup<TStartup>();

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using Actio.Common.Commands;
+﻿using Actio.Common.Commands;
 using Actio.Common.Events;
 using Actio.Common.Exceptions;
 using Actio.Services.Activities.Services;
-using Microsoft.Extensions.Logging;
 using RawRabbit;
+using System;
+using System.Threading.Tasks;
 
 namespace Actio.Services.Activities.Handlers
 {
@@ -13,22 +12,18 @@ namespace Actio.Services.Activities.Handlers
     {
         private readonly IBusClient _busClient;
         private readonly IActivityService _activityService;
-        private ILogger _logger;
 
         public CreateActivityCommandHandler(IBusClient busClient, 
-            IActivityService activityService,
-            ILogger logger)
+            IActivityService activityService)
         {
             _busClient = busClient;
             _activityService = activityService;
-            _logger = logger;
         }
 
         public async Task HandleAsync(CreateActivityCommand command)
         {
-            _logger.LogInformation($"Creating activity: {command.Name}");
+            Console.WriteLine($"Creating activity: {command.Name}");
             try
-
             {
                 await _activityService.AddAsync(command.Id,
                     command.UserId,

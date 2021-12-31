@@ -3,8 +3,10 @@ using Actio.Common.Mongo;
 using Actio.Common.RabbitMq;
 using Actio.Services.Identity.Data.Repositories;
 using Actio.Services.Identity.Domain.Repositories;
+using Actio.Services.Identity.Domain.Services;
 using Actio.Services.Identity.Handlers;
 using Actio.Services.Identity.Services;
+using EscNet.IoC.Cryptography;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -23,13 +25,9 @@ namespace Actio.Services.Identity.Extensions
 
             services.AddScoped<IUserService, UserService>();
 
-            services.AddLogging(x =>
-            {
-                x.Configure(o =>
-                {
-                    o.ActivityTrackingOptions = ActivityTrackingOptions.None;
-                }).AddConsole();
-            });
+            //Security
+            services.AddRijndaelCryptography(configuration["Cryptography:Key"]);
+            services.AddScoped<IEncrypter, Encrypter>();
 
             return services;
         }

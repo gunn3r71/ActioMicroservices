@@ -1,5 +1,6 @@
 ﻿using System;
 using Actio.Common.Exceptions;
+using Actio.Services.Identity.Domain.Services;
 
 namespace Actio.Services.Identity.Domain.Entities
 {
@@ -9,7 +10,7 @@ namespace Actio.Services.Identity.Domain.Entities
         {
         }
 
-        public User(string email, string name, string password)
+        public User(string email, string name)
         {
             Id = Guid.NewGuid();
             Email = string.IsNullOrWhiteSpace(email.ToLowerInvariant()) ? throw new ActioException("empty_user_email") : email;
@@ -22,5 +23,13 @@ namespace Actio.Services.Identity.Domain.Entities
         public string Name { get; private set; }
         public string Password { get; private set; }
         public DateTime CreatedAt { get; private set; }
+
+        public void SetPassword(string password, IEncrypter encrypter)
+        {
+            Password = encrypter.Encrypt(password);
+        }
+
+        public bool ValidatePassword(string password, IEncrypter encrypter) => 
+            Password == encrypter.Encrypt(password);
     }
 }

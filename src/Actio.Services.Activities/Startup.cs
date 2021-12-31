@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Actio.Services.Activities
 {
@@ -40,7 +41,7 @@ namespace Actio.Services.Activities
             app.UseAuthorization();
 
             app.ApplicationServices.GetService<IDatabaseInitializer>()?.InitializeAsync();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

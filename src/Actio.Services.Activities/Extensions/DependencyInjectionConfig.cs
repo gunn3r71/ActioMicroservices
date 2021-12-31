@@ -25,14 +25,6 @@ namespace Actio.Services.Activities.Extensions
 
             services.AddScoped<IDatabaseSeeder, CustomMongoSeeder>();
 
-            services.AddLogging(x =>
-            {
-                x.Configure(o =>
-                {
-                    o.ActivityTrackingOptions = ActivityTrackingOptions.None;
-                }).AddConsole();
-            });
-
             return services;
         }
     }
